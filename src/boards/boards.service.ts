@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Board, BoardStatus } from "./board.model";
+import { CreateBoardDto } from "./dto/creat-board.dto";
 import { v4 as uuidV4 } from "uuid";
 
 @Injectable() // 서비스 전체에서 사용할 수 있게 "주입가능한"이라는 뜻의 데코레이터 작성
@@ -10,7 +11,8 @@ export class BoardsService {
         return this.boards;
     }
 
-    createBoard(title: string, description: string) {
+    createBoard(createBoardDto: CreateBoardDto) {
+        const { title, description } = createBoardDto;
         const board: Board = {
             id: uuidV4(),
             title,
