@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Delete } from "@nestjs/common";
 import { BoardsService } from "./boards.service";
 import { CreateBoardDto } from "./dto/creat-board.dto";
 import { Board } from "./board.model";
@@ -12,6 +12,7 @@ export class BoardsController {
         return this.boardsService.getAllBoards();
     }
 
+    // @Param() params: string[] => 파라미터가 여러개일 때 배열로 모두 받아오기
     @Get("/:id")
     getBoardById(@Param("id") id: string): Board {
         return this.boardsService.getBoard(id);
@@ -26,5 +27,10 @@ export class BoardsController {
         @Body() createBoardDto: CreateBoardDto,
     ): Board {
         return this.boardsService.createBoard(createBoardDto);
+    }
+
+    @Delete("/:id")
+    deleteBoard(@Param("id") id: string): void {
+        this.boardsService.deleteBoard(id);
     }
 }
