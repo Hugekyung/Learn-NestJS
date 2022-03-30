@@ -12,15 +12,13 @@ export class BoardsService {
         @InjectRepository(BoardRepository) // 해당 repository를 사용한다는 의미
         private boardRepository: BoardRepository,
     ) {}
-    // getAllBoards(): Board[] {
-    //     return this.boards;
-    // }
+
     createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
         return this.boardRepository.createBoard(createBoardDto);
     }
 
     async getBoardById(id: number): Promise<Board> {
-        const found = await this.boardRepository.findOne(id);
+        const found = await this.boardRepository.getBoardById(id);
 
         if (!found) {
             throw new NotFoundException("일치하는 board가 없습니다.");
@@ -28,31 +26,15 @@ export class BoardsService {
 
         return found;
     }
-    // getBoard(id: string): Board {
-    //     const found = this.boards.find((board) => board.id === id);
-    //     if (!found) {
-    //         throw new NotFoundException(`${id}와 일치하는 값이 없습니다.`);
-    //     }
-    //     return found;
-    // }
-    // createBoard(createBoardDto: CreateBoardDto) {
-    //     const { title, description } = createBoardDto;
-    //     const board: Board = {
-    //         id: uuidV4(),
-    //         title,
-    //         description,
-    //         status: BoardStatus.PUBLIC,
-    //     };
-    //     this.boards.push(board);
-    //     return board;
-    // }
-    // deleteBoard(id: string): void {
-    //     const found = this.getBoard(id);
-    //     this.boards = this.boards.filter((board) => board.id !== found.id);
-    // }
-    // updateBoardStatus(id: string, status: BoardStatus): Board {
-    //     const board = this.getBoard(id);
-    //     board.status = status;
-    //     return board;
-    // }
+
+    async deleteBoard(id: number): Promise<object> {
+        const found = await this.boardRepository.getBoardById(id);
+
+        if (!found) {
+            throw new NotFoundException("일치하는 board가 없습니다.");
+        }
+
+        await this.boardRepository.deleteBoardById(id);
+        return { message: "Board deleted successfully" };
+    }
 }
