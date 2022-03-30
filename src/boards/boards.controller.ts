@@ -6,6 +6,8 @@ import {
     Post,
     Delete,
     Patch,
+    UsePipes,
+    ValidationPipe,
 } from "@nestjs/common";
 import { BoardsService } from "./boards.service";
 import { CreateBoardDto } from "./dto/creat-board.dto";
@@ -27,6 +29,7 @@ export class BoardsController {
     }
 
     @Post()
+    @UsePipes(ValidationPipe) // 핸들러 레벨의 파이프라인
     createBoard(
         // 클라이언트에서 보낸 request의 body값은 @Body() body를 통해 얻을 수 있다
         // 아래와 같이 body 전체가 아닌 특정 값만 얻기 위해 쓸 수도 있다

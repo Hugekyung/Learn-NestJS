@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Board, BoardStatus } from "./board.model";
 import { CreateBoardDto } from "./dto/creat-board.dto";
 import { v4 as uuidV4 } from "uuid";
@@ -12,7 +12,13 @@ export class BoardsService {
     }
 
     getBoard(id: string): Board {
-        return this.boards.find((board) => board.id === id);
+        const found = this.boards.find((board) => board.id === id);
+
+        if (!found) {
+            throw new NotFoundException(`${id}와 일치하는 값이 없습니다.`);
+        }
+
+        return found;
     }
 
     createBoard(createBoardDto: CreateBoardDto) {
