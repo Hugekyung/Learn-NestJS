@@ -26,4 +26,10 @@ export class BoardRepository extends Repository<Board> {
     async deleteBoardById(id: number): Promise<void> {
         await this.delete(id);
     }
+
+    async updateBoardStatus(board: Board, status: BoardStatus): Promise<Board> {
+        board.status = status;
+        await this.save(board);
+        return board;
+    }
 }

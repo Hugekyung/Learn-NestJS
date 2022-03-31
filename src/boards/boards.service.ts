@@ -37,4 +37,15 @@ export class BoardsService {
         await this.boardRepository.deleteBoardById(id);
         return { message: "Board deleted successfully" };
     }
+
+    async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
+        let found = await this.boardRepository.getBoardById(id);
+
+        if (!found) {
+            throw new NotFoundException("일치하는 board가 없습니다.");
+        }
+
+        found = await this.boardRepository.updateBoardStatus(found, status);
+        return found;
+    }
 }
