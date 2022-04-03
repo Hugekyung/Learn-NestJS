@@ -10,6 +10,8 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
 import { AuthCredentialsDto } from "./dto/auth-credentialsDto.dto";
+import { GetUser } from "./get-user.decorator";
+import { User } from "./user.entity";
 
 @Controller("auth")
 export class AuthController {
@@ -31,7 +33,7 @@ export class AuthController {
 
     @Post("/test")
     @UseGuards(AuthGuard()) // 인증처리 -> AuthGuard는 passport에서 req.user객체에 유저정보를 넣어주는 역할 처리
-    test(@Req() req) {
-        console.log("req >> ", req.user);
+    test(@GetUser() user: User) {
+        console.log("user >> ", user.username);
     }
 }
