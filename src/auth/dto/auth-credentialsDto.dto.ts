@@ -5,6 +5,7 @@ import {
     MaxLength,
     MinLength,
 } from "class-validator";
+import { Board } from "src/boards/board.entity";
 
 export class AuthCredentialsDto {
     @IsNotEmpty()
@@ -21,4 +22,6 @@ export class AuthCredentialsDto {
         message: "password must be english and number.",
     }) // 정규표현식 패턴을 넣어 해당 패턴에 해당하는 값만 넣을 수 있게 한다
     password: string;
+
+    board: Board[];
 }

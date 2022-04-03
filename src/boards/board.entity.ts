@@ -23,6 +23,7 @@ export class Board extends BaseEntity {
     @Column()
     status: BoardStatus;
 
+    // user객체는 userId로서 Board 테이블의 FK가 된다
     @ManyToOne((type) => User, (user) => user.board, { eager: false })
     user: User;
 }

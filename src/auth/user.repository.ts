@@ -10,11 +10,11 @@ import { User } from "./user.entity";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
     async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-        const { username, password } = authCredentialsDto;
+        const { username, password, board } = authCredentialsDto;
 
         const salt = await bcrypt.genSalt(); // hash에 붙여줄 unique한 값
         const hashedPassword = await bcrypt.hash(password, salt);
-        const user = this.create({ username, password: hashedPassword });
+        const user = this.create({ username, password: hashedPassword, board });
 
         try {
             await this.save(user);

@@ -5,6 +5,7 @@ import { v4 as uuidV4 } from "uuid";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BoardRepository } from "./board.repository";
 import { Board } from "./board.entity";
+import { User } from "src/auth/user.entity";
 
 @Injectable() // 서비스 전체에서 사용할 수 있게 "주입가능한"이라는 뜻의 데코레이터 작성
 export class BoardsService {
@@ -17,8 +18,8 @@ export class BoardsService {
         return await this.boardRepository.getBoardList();
     }
 
-    createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-        return this.boardRepository.createBoard(createBoardDto);
+    createBoard(createBoardDto: CreateBoardDto, user: User): Promise<Board> {
+        return this.boardRepository.createBoard(createBoardDto, user);
     }
 
     async getBoardById(id: number): Promise<Board> {
