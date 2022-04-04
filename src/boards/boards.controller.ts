@@ -10,6 +10,7 @@ import {
     ValidationPipe,
     ParseIntPipe,
     UseGuards,
+    Logger,
 } from "@nestjs/common";
 import { BoardsService } from "./boards.service";
 import { CreateBoardDto } from "./dto/creat-board.dto";
@@ -23,6 +24,7 @@ import { User } from "src/auth/user.entity";
 @Controller("boards")
 @UseGuards(AuthGuard()) // 모든 controller 경로에 인증절차 미들웨어 적용
 export class BoardsController {
+    private logger = new Logger("BoardController");
     constructor(private boardsService: BoardsService) {}
 
     @Get()
@@ -33,6 +35,9 @@ export class BoardsController {
     @Get("/me")
     @UseGuards(AuthGuard())
     async getBoards(@GetUser() user: User): Promise<Board[]> {
+        this.logger.verbose(
+            `User ${user.username} trying to get all boards ..`,
+        );
         return this.boardsService.getBoards(user);
     }
 
@@ -42,6 +47,11 @@ export class BoardsController {
         @Body() createBoardDto: CreateBoardDto,
         @GetUser() user: User,
     ): Promise<Board> {
+        this.logger.verbose(
+            `User ${user.username} trying to create board .. ${JSON.stringify(
+                createBoardDto,
+            )}`,
+        );
         return this.boardsService.createBoard(createBoardDto, user);
     }
 
