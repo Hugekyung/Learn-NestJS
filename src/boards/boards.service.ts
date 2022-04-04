@@ -36,14 +36,14 @@ export class BoardsService {
         return found;
     }
 
-    async deleteBoard(id: number): Promise<object> {
+    async deleteBoard(id: number, user: User): Promise<object> {
         const found = await this.boardRepository.getBoardById(id);
 
         if (!found) {
             throw new NotFoundException("일치하는 board가 없습니다.");
         }
 
-        await this.boardRepository.deleteBoardById(id);
+        await this.boardRepository.deleteBoardById(id, user);
         return { message: "Board deleted successfully" };
     }
 

@@ -1,3 +1,4 @@
+import { NotFoundException } from "@nestjs/common";
 import { User } from "src/auth/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { BoardStatus } from "./board-status.enum";
@@ -42,8 +43,13 @@ export class BoardRepository extends Repository<Board> {
         return board;
     }
 
-    async deleteBoardById(id: number): Promise<void> {
-        await this.delete(id);
+    async deleteBoardById(id: number, user: User): Promise<void> {
+        const result = await this.delete({ id, user });
+        console.log(result);
+
+        if (result.affected === 0) {
+            throw new NotFoundException(`Can't find Board with id ${id}`);
+        }
     }
 
     async updateBoardStatus(board: Board, status: BoardStatus): Promise<Board> {
