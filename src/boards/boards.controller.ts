@@ -25,7 +25,7 @@ import { User } from "src/auth/user.entity";
 @UseGuards(AuthGuard()) // 모든 controller 경로에 인증절차 미들웨어 적용
 export class BoardsController {
     private logger = new Logger("BoardController");
-    constructor(private boardsService: BoardsService) {}
+    constructor(private boardsService: BoardsService) {} // 이렇게 작성하면 생성자 작성과 함께 인스턴스 변수도 함께 초기화할 수 있다
 
     @Get()
     async getAllBoards(): Promise<Board[]> {
@@ -38,6 +38,7 @@ export class BoardsController {
         this.logger.verbose(
             `User ${user.username} trying to get all boards ..`,
         );
+
         return this.boardsService.getBoards(user);
     }
 
@@ -52,6 +53,7 @@ export class BoardsController {
                 createBoardDto,
             )}`,
         );
+
         return this.boardsService.createBoard(createBoardDto, user);
     }
 

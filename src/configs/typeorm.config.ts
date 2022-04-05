@@ -3,6 +3,7 @@ import * as config from "config";
 
 const dbConfig = config.get("db");
 
+// TypeORM을 NEST에 연동하기 위한 DB 설정 내용들
 export const typeORMConfig: TypeOrmModuleOptions = {
     type: dbConfig.type,
     host: process.env.RDS_HOSTNAME || dbConfig.host,
